@@ -3,240 +3,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Controle de Estoque - Ótica Premium</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <title>Ótica Torres - PDV</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
-        <header class="header">
-            <div class="header-content">
-                <h1><i class="fas fa-glasses"></i> Ótica Premium</h1>
-                <p>Sistema de Controle de Estoque</p>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-glasses"></i>
+                <h1>Ótica Visão Clara</h1>
             </div>
-            <div class="total-value">
-                <span>Valor Total do Estoque</span>
-                <span id="totalValue" class="value">R$ 0,00</span>
-            </div>
-        </header>
-
-        <!-- Navigation -->
-        <nav class="nav-tabs">
-            <button class="tab-btn active" onclick="showTab('produtos')">
-                <i class="fas fa-box"></i> 
-                <span>Produtos</span>
-            </button>
-            <button class="tab-btn" onclick="showTab('graficos')">
-                <i class="fas fa-chart-bar"></i> 
-                <span>Gráficos</span>
-            </button>
-            <button class="tab-btn" onclick="showTab('movimentacao')">
-                <i class="fas fa-exchange-alt"></i> 
-                <span>Movimentação</span>
-            </button>
-        </nav>
-
-        <!-- Produtos Tab -->
-        <div id="produtos" class="tab-content active">
-            <div class="section">
-                <h2><i class="fas fa-plus-circle"></i> Cadastro de Produtos</h2>
-                <form id="productForm" class="product-form">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="nome"><i class="fas fa-tag"></i> Nome do Produto</label>
-                            <input type="text" id="nome" placeholder="Ex: Armação Ray-Ban" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="categoria"><i class="fas fa-list"></i> Categoria</label>
-                            <select id="categoria" required>
-                                <option value="">Selecione uma categoria...</option>
-                                <option value="armacao">🕶️ Armação</option>
-                                <option value="lente">👁️ Lente</option>
-                                <option value="acessorio">🔧 Acessório</option>
-                                <option value="ferramenta">⚒️ Ferramenta</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="quantidade"><i class="fas fa-cubes"></i> Quantidade</label>
-                            <input type="number" id="quantidade" min="0" placeholder="0" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="preco"><i class="fas fa-dollar-sign"></i> Preço Unitário</label>
-                            <input type="number" id="preco" step="0.01" min="0" placeholder="0,00" required>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="fornecedor"><i class="fas fa-truck"></i> Fornecedor</label>
-                            <input type="text" id="fornecedor" placeholder="Ex: Luxottica">
-                        </div>
-                        <div class="form-group">
-                            <label for="estoqueMinimo"><i class="fas fa-exclamation-triangle"></i> Estoque Mínimo</label>
-                            <input type="number" id="estoqueMinimo" min="0" value="5" placeholder="5">
-                        </div>
-                    </div>
-                    <button type="submit" class="btn-primary">
-                        <i class="fas fa-plus"></i> 
-                        <span>Adicionar Produto</span>
-                    </button>
-                </form>
-            </div>
-
-            <div class="section">
-                <h2><i class="fas fa-inventory"></i> Lista de Produtos</h2>
-                <div class="search-bar">
-                    <input type="text" id="searchInput" placeholder="🔍 Buscar produtos...">
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Buscar produto...">
+                <button class="search-btn">
                     <i class="fas fa-search"></i>
-                </div>
-                <div class="table-container">
-                    <table id="productsTable">
-                        <thead>
-                            <tr>
-                                <th>Produto</th>
-                                <th>Categoria</th>
-                                <th>Quantidade</th>
-                                <th>Preço Unit.</th>
-                                <th>Valor Total</th>
-                                <th>Fornecedor</th>
-                                <th>Status</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody id="productsTableBody">
-                        </tbody>
-                    </table>
-                </div>
+                </button>
+            </div>
+            <div class="user-info">
+                <span>Vendedor: João Silva</span>
+                <button class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
             </div>
         </div>
+    </header>
 
-        <!-- Gráficos Tab -->
-        <div id="graficos" class="tab-content">
-            <div class="charts-container">
-                <div class="chart-section">
-                    <h3><i class="fas fa-chart-pie"></i> Distribuição por Categoria</h3>
-                    <canvas id="categoryChart"></canvas>
-                </div>
-                <div class="chart-section">
-                    <h3><i class="fas fa-chart-bar"></i> Valor por Categoria</h3>
-                    <canvas id="valueChart"></canvas>
-                </div>
-                <div class="chart-section">
-                    <h3><i class="fas fa-exclamation-triangle"></i> Estoque Baixo</h3>
-                    <canvas id="lowStockChart"></canvas>
-                </div>
-                <div class="chart-section">
-                    <h3><i class="fas fa-chart-line"></i> Evolução do Estoque</h3>
-                    <canvas id="evolutionChart"></canvas>
-                </div>
-            </div>
-        </div>
-
-        <!-- Movimentação Tab -->
-        <div id="movimentacao" class="tab-content">
-            <div class="section">
-                <h2><i class="fas fa-exchange-alt"></i> Movimentação de Estoque</h2>
-                <form id="movementForm" class="movement-form">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="produtoMovimento"><i class="fas fa-box"></i> Produto</label>
-                            <select id="produtoMovimento" required>
-                                <option value="">Selecione um produto...</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="tipoMovimento"><i class="fas fa-arrows-alt-v"></i> Tipo de Movimento</label>
-                            <select id="tipoMovimento" required>
-                                <option value="">Selecione o tipo...</option>
-                                <option value="entrada">📈 Entrada (Compra/Reposição)</option>
-                                <option value="saida">📉 Saída (Venda/Uso)</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="quantidadeMovimento"><i class="fas fa-hashtag"></i> Quantidade</label>
-                            <input type="number" id="quantidadeMovimento" min="1" placeholder="1" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="observacao"><i class="fas fa-sticky-note"></i> Observação</label>
-                            <input type="text" id="observacao" placeholder="Ex: Venda para cliente João">
-                        </div>
-                    </div>
-                    <button type="submit" class="btn-primary">
-                        <i class="fas fa-save"></i> 
-                        <span>Registrar Movimentação</span>
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Categories -->
+            <section class="categories">
+                <h2>Categorias</h2>
+                <div class="category-grid">
+                    <button class="category-btn active" data-category="grau">
+                        <i class="fas fa-glasses"></i>
+                        <span>Óculos de Grau</span>
                     </button>
+                    <button class="category-btn" data-category="sol">
+                        <i class="fas fa-sun"></i>
+                        <span>Óculos de Sol</span>
+                    </button>
+                    <button class="category-btn" data-category="lentes">
+                        <i class="fas fa-eye"></i>
+                        <span>Lentes</span>
+                    </button>
+                    <button class="category-btn" data-category="servicos">
+                        <i class="fas fa-tools"></i>
+                        <span>Serviços</span>
+                    </button>
+                </div>
+            </section>
+
+            <div class="content-wrapper">
+                <!-- Products Section -->
+                <section class="products-section">
+                    <h2>Produtos</h2>
+                    <div class="products-grid" id="productsGrid">
+                        <!-- Produtos serão carregados dinamicamente -->
+                    </div>
+                </section>
+
+                <!-- Cart Section -->
+                <aside class="cart-section">
+                    <div class="cart-header">
+                        <h3><i class="fas fa-shopping-cart"></i> Carrinho</h3>
+                        <span class="cart-count">0 itens</span>
+                    </div>
+                    <div class="cart-items" id="cartItems">
+                        <p class="empty-cart">Carrinho vazio</p>
+                    </div>
+                    <div class="cart-total">
+                        <div class="total-line">
+                            <span>Subtotal:</span>
+                            <span id="subtotal">R$ 0,00</span>
+                        </div>
+                        <div class="total-line">
+                            <span>Desconto:</span>
+                            <span id="discount">R$ 0,00</span>
+                        </div>
+                        <div class="total-line total">
+                            <span>Total:</span>
+                            <span id="total">R$ 0,00</span>
+                        </div>
+                    </div>
+                    <div class="cart-actions">
+                        <button class="btn-secondary" id="clearCart">Limpar</button>
+                        <button class="btn-primary" id="checkout">Finalizar</button>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <!-- Customer Modal -->
+    <div class="modal" id="customerModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Dados do Cliente</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="customerForm">
+                    <div class="form-group">
+                        <label for="customerName">Nome:</label>
+                        <input type="text" id="customerName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="customerPhone">Telefone:</label>
+                        <input type="tel" id="customerPhone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="customerEmail">Email:</label>
+                        <input type="email" id="customerEmail">
+                    </div>
+                    <div class="form-group">
+                        <label for="paymentMethod">Forma de Pagamento:</label>
+                        <select id="paymentMethod" required>
+                            <option value="">Selecione...</option>
+                            <option value="dinheiro">Dinheiro</option>
+                            <option value="cartao">Cartão</option>
+                            <option value="pix">PIX</option>
+                        </select>
+                    </div>
                 </form>
             </div>
-
-            <div class="section">
-                <h2><i class="fas fa-history"></i> Histórico de Movimentações</h2>
-                <div class="table-container">
-                    <table id="movementsTable">
-                        <thead>
-                            <tr>
-                                <th>Data/Hora</th>
-                                <th>Produto</th>
-                                <th>Tipo</th>
-                                <th>Quantidade</th>
-                                <th>Observação</th>
-                            </tr>
-                        </thead>
-                        <tbody id="movementsTableBody">
-                        </tbody>
-                    </table>
-                </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="cancelCheckout">Cancelar</button>
+                <button class="btn-primary" id="confirmSale">Confirmar Venda</button>
             </div>
         </div>
     </div>
 
-    <!-- Modal para Edição -->
-    <div id="editModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2><i class="fas fa-edit"></i> Editar Produto</h2>
-            <form id="editForm">
-                <input type="hidden" id="editId">
-                <div class="form-group">
-                    <label for="editNome">Nome do Produto</label>
-                    <input type="text" id="editNome" required>
-                </div>
-                <div class="form-group">
-                    <label for="editCategoria">Categoria</label>
-                    <select id="editCategoria" required>
-                        <option value="armacao">🕶️ Armação</option>
-                        <option value="lente">👁️ Lente</option>
-                        <option value="acessorio">🔧 Acessório</option>
-                        <option value="ferramenta">⚒️ Ferramenta</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="editQuantidade">Quantidade</label>
-                    <input type="number" id="editQuantidade" min="0" required>
-                </div>
-                <div class="form-group">
-                    <label for="editPreco">Preço Unitário</label>
-                    <input type="number" id="editPreco" step="0.01" min="0" required>
-                </div>
-                <div class="form-group">
-                    <label for="editFornecedor">Fornecedor</label>
-                    <input type="text" id="editFornecedor">
-                </div>
-                <div class="form-group">
-                    <label for="editEstoqueMinimo">Estoque Mínimo</label>
-                    <input type="number" id="editEstoqueMinimo" min="0">
-                </div>
-                <button type="submit" class="btn-primary">
-                    <i class="fas fa-save"></i> Salvar Alterações
-                </button>
-            </form>
+    <!-- Success Modal -->
+    <div class="modal" id="successModal">
+        <div class="modal-content success">
+            <div class="modal-header">
+                <h3><i class="fas fa-check-circle"></i> Venda Realizada!</h3>
+            </div>
+            <div class="modal-body">
+                <p>Venda realizada com sucesso!</p>
+                <p><strong>Total: <span id="saleTotal"></span></strong></p>
+                <p>Cupom fiscal será impresso automaticamente.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-primary" id="printReceipt">Imprimir Cupom</button>
+                <button class="btn-secondary" id="newSale">Nova Venda</button>
+            </div>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- Receipt Template (Hidden) -->
+    <div id="receiptTemplate" class="receipt-template">
+        <div class="receipt-content">
+            <div class="receipt-header">
+                <h2>ÓTICA VISÃO CLARA</h2>
+                <p>CNPJ: 12.345.678/0001-90</p>
+                <p>Rua das Flores, 123 - Centro</p>
+                <p>São Paulo - SP - CEP: 01234-567</p>
+                <p>Tel: (11) 9999-9999</p>
+                <hr>
+            </div>
+            
+            <div class="receipt-info">
+                <p><strong>CUPOM FISCAL NÃO FISCAL</strong></p>
+                <p>Data: <span id="receiptDate"></span></p>
+                <p>Hora: <span id="receiptTime"></span></p>
+                <p>Vendedor: <span id="receiptSeller"></span></p>
+                <p>Cliente: <span id="receiptCustomer"></span></p>
+                <p>Telefone: <span id="receiptCustomerPhone"></span></p>
+                <hr>
+            </div>
+            
+            <div class="receipt-items">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Qtd</th>
+                            <th>Valor Unit.</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="receiptItemsList">
+                        <!-- Itens serão inseridos aqui -->
+                    </tbody>
+                </table>
+                <hr>
+            </div>
+            
+            <div class="receipt-total">
+                <p>Subtotal: R$ <span id="receiptSubtotal"></span></p>
+                <p>Desconto: R$ <span id="receiptDiscount"></span></p>
+                <p><strong>TOTAL GERAL: R$ <span id="receiptTotal"></span></strong></p>
+                <p>Forma Pagto: <span id="receiptPayment"></span></p>
+                <hr>
+            </div>
+            
+            <div class="receipt-footer">
+                <p>*** CUPOM NÃO FISCAL ***</p>
+                <p>Obrigado pela preferência!</p>
+                <p>Volte sempre!</p>
+                <p>Garantia: 90 dias para defeitos de fabricação</p>
+                <p>Troca: até 7 dias com nota fiscal</p>
+                <p class="receipt-number">Cupom Nº: <span id="receiptNumber"></span></p>
+                <p class="receipt-timestamp">Emitido em: <span id="receiptTimestamp"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
 </body>
 </html>
